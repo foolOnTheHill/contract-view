@@ -8,7 +8,7 @@ class SortForm extends Component {
     this.handleChange = this.handleChange.bind(this);
 
     this.state = {
-      value: props.options[0],
+      sortByKey: props.options[0],
       ascSort: true
     };
   }
@@ -39,7 +39,7 @@ class SortForm extends Component {
         <form className="form-inline">
           <div className="form-group">
             <label>{sortTextLabel}</label>
-            <select className="form-control" name="value" value={this.state.value} onChange={this.handleChange}>
+            <select className="form-control" name="sortByKey" value={this.state.sortByKey} onChange={this.handleChange}>
               {options}
             </select>
           </div>

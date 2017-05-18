@@ -36,6 +36,7 @@ class App extends Component {
   }
 
   handleSortChange(name, value) {
+    console.log(name);
     this.setState({
       [name]: value
     });
@@ -62,9 +63,26 @@ class App extends Component {
     return data;
   }
 
+  sortData(dataToSort) {
+    console.log("Sort");
+
+    const compKey = this.state.sortByKey;
+    const data = dataToSort.sort((a, b) => {
+      return a[compKey].localeCompare(b[compKey]);
+    });
+
+    if (this.state.ascSort === false) {
+      return data.reverse();
+    } else {
+      return data;
+    }
+  }
+
   render() {
     const keys = Object.keys(this.props.contracts[0]);
-    const data = this.state.search !== '' ? this.filterData() : this.props.contracts;
+
+    var tmpData = this.state.search !== '' ? this.filterData() : this.props.contracts;
+    const data = this.state.sortByKey === null ? tmpData : this.sortData(tmpData);
 
     var hideKeys = [];
     var tableHeaderKeys = [];
