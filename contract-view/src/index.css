@@ -59,6 +59,14 @@ body {
   margin-top: 1.5rem;
 }
 
+.form-inline > * {
+   margin:0rem 1rem;
+}
+
+.form-group > label {
+  margin-right: 0.5rem;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 48em) {
   /* Remove the padding we set earlier */
