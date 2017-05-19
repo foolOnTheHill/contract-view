@@ -18,6 +18,7 @@ class App extends Component {
     this.handleSortChange = this.handleSortChange.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.saveEdited = this.saveEdited.bind(this);
+    this.handleDetailedClick = this.handleDetailedClick.bind(this);
 
     var showKeys = {};
 
@@ -27,11 +28,20 @@ class App extends Component {
     showKeys['id'] = false;
 
     this.state = {
+      detailedView: false,
+      detailedId: null,
       showKeys: showKeys,
       sortByKey: null,
       sortAsc: true,
       search: ''
     };
+  }
+
+  handleDetailedClick(id) {
+    this.setState({
+      detailedView: true,
+      detailedId: id
+    });
   }
 
   handleSearchChange(searchQuery) {
@@ -82,6 +92,8 @@ class App extends Component {
   saveEdited(id, newValue) {
     this.props.contracts[id] = newValue;
     this.setState({
+      detailedView: false,
+      detailedId: null,
       sortByKey: null,
       sortAsc: true,
       search: ''
@@ -91,32 +103,39 @@ class App extends Component {
   render() {
     const keys = this.keys;
 
-    var tmpData = this.state.search !== '' ? this.filterData() : this.props.contracts;
-    const data = this.state.sortByKey === null ? tmpData : this.sortData(tmpData);
+    if (!this.state.detailedView) {
+      var tmpData = this.state.search !== '' ? this.filterData() : this.props.contracts;
+      const data = this.state.sortByKey === null ? tmpData : this.sortData(tmpData);
 
-    var hideKeys = ['id'];
-    var tableHeaderKeys = [];
-    for (var i in keys) {
-      if (this.state.showKeys[keys[i]] === false) {
-        hideKeys.push(keys[i]);
-      } else {
-        tableHeaderKeys.push(keys[i]);
+      var hideKeys = ['id'];
+      var tableHeaderKeys = [];
+      for (var i in keys) {
+        if (this.state.showKeys[keys[i]] === false) {
+          hideKeys.push(keys[i]);
+        } else {
+          tableHeaderKeys.push(keys[i]);
+        }
       }
-    }
 
-    return (
-      <div className="container-fluid">
-        <SortForm handleChange={this.handleSortChange} options={keys} />
-        <br />
-        <KeyFilterForm options={keys} handleChange={this.handleFilterChange}/>
-        <br />
-        <SearchInput handleChange={this.handleSearchChange} />
-        <br/>
-        <ContractTable tableHeaderKeys={tableHeaderKeys} hideKeys={hideKeys} contracts={data}/>
-        <br />
-        <ContractDetails contract={this.props.contracts[0]} keys={this.keys} saveEdited={this.saveEdited}/>
-      </div>
-    );
+      return (
+        <div className="container-fluid">
+          <SortForm handleChange={this.handleSortChange} options={keys} />
+          <br />
+          <KeyFilterForm options={keys} handleChange={this.handleFilterChange}/>
+          <br />
+          <SearchInput handleChange={this.handleSearchChange} />
+          <br/>
+          <ContractTable handleClick={this.handleDetailedClick} tableHeaderKeys={tableHeaderKeys} hideKeys={hideKeys} contracts={data}/>
+          <br />
+        </div>
+      );
+    } else {
+      return (
+        <div className="container-fluid">
+          <ContractDetails contract={this.props.contracts[this.state.detailedId]} keys={this.keys} saveEdited={this.saveEdited}/>
+        </div>
+      );
+    }
   }
 }
 

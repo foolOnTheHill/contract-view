@@ -17,7 +17,7 @@ class ContractTable extends Component {
       }
     }
 
-    const tableData = contracts.map((c, index) => <ContractRow key={index} contract={c}/>);
+    const tableData = contracts.map((c, index) => <ContractRow id={this.props.contracts[index].id} handleClick={this.props.handleClick} key={index} contract={c}/>);
     return tableData;
   }
 
