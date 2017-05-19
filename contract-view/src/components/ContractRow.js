@@ -7,7 +7,7 @@ class ContractRow extends Component {
     var dataList = vals.map((v, index) => <td key={index}>{v}</td>);
     return dataList;
   }
-  
+
   render() {
     const values = this.getColumnValues();
     return <tr>{values}</tr>;

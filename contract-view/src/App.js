@@ -5,23 +5,26 @@ import ContractTable from './components/ContractTable.js';
 import SearchInput from './components/SearchInput.js';
 import SortForm from './components/SortForm.js';
 import KeyFilterForm from './components/KeyFilterForm.js';
+import ContractDetails from './components/ContractDetails.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
-    this.keys = Object.keys(this.props.contracts[0]);
+    this.keys = Object.keys(this.props.contracts[0]).filter(k => k.localeCompare('id') !== 0);
     this.contracts = props.contracts;
 
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleSortChange = this.handleSortChange.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.saveEdited = this.saveEdited.bind(this);
 
     var showKeys = {};
 
     for (var i in this.keys) {
       showKeys[this.keys[i]] = true;
     }
+    showKeys['id'] = false;
 
     this.state = {
       showKeys: showKeys,
@@ -51,7 +54,7 @@ class App extends Component {
   }
 
   filterData() {
-    const keys = Object.keys(this.props.contracts[0]);
+    const keys = this.keys;
     const data = this.props.contracts.filter(contract => {
       for (var i in keys) {
         if (contract[keys[i]].includes(this.state.search)) {
@@ -64,8 +67,6 @@ class App extends Component {
   }
 
   sortData(dataToSort) {
-    console.log("Sort");
-
     const compKey = this.state.sortByKey;
     const data = dataToSort.sort((a, b) => {
       return a[compKey].localeCompare(b[compKey]);
@@ -78,13 +79,22 @@ class App extends Component {
     }
   }
 
+  saveEdited(id, newValue) {
+    this.props.contracts[id] = newValue;
+    this.setState({
+      sortByKey: null,
+      sortAsc: true,
+      search: ''
+    });
+  }
+
   render() {
-    const keys = Object.keys(this.props.contracts[0]);
+    const keys = this.keys;
 
     var tmpData = this.state.search !== '' ? this.filterData() : this.props.contracts;
     const data = this.state.sortByKey === null ? tmpData : this.sortData(tmpData);
 
-    var hideKeys = [];
+    var hideKeys = ['id'];
     var tableHeaderKeys = [];
     for (var i in keys) {
       if (this.state.showKeys[keys[i]] === false) {
@@ -103,6 +113,8 @@ class App extends Component {
         <SearchInput handleChange={this.handleSearchChange} />
         <br/>
         <ContractTable tableHeaderKeys={tableHeaderKeys} hideKeys={hideKeys} contracts={data}/>
+        <br />
+        <ContractDetails contract={this.props.contracts[0]} keys={this.keys} saveEdited={this.saveEdited}/>
       </div>
     );
   }
