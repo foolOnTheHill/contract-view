@@ -9,7 +9,6 @@ class ContractRow extends Component {
   }
 
   handleClick() {
-    console.log(this.props.id);
     this.props.handleClick(this.props.id);
   }
 

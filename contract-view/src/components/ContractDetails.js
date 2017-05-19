@@ -28,11 +28,16 @@ class ContractDetails extends Component {
   }
 
   getFormInputs() {
-    // var dateReg = /^\d{2}[./-]\d{2}[./-]\d{4}$/;
+    var dateReg = /^\d{2}[./-]\d{2}[./-]\d{4}$/;
     var forms = this.props.keys.map((k, index) => (
       <div className="form-group" key={index}>
         <label>{k}</label>
-        <input className="form-control" value={this.state[k]} onChange={this.handleChange} name={k}/>
+        <input
+          type={this.state[k].match(dateReg) ? "date" : "text"}
+          className="form-control"
+          value={this.state[k].match(dateReg) ? this.state[k].split("-").reverse().join("-") : this.state[k]}
+          onChange={this.handleChange}
+          name={k} />
       </div>
     ));
 

@@ -49,7 +49,6 @@ class App extends Component {
   }
 
   handleSortChange(name, value) {
-    console.log(name);
     this.setState({
       [name]: value
     });
