@@ -18,8 +18,10 @@ class ContractDetails extends Component {
   }
 
   handleChange(event) {
+    var dateReg = /^\d{4}[./-]\d{2}[./-]\d{2}$/;
+
     const target = event.target;
-    const newValue = target.value;
+    const newValue = target.value.match(dateReg) ? target.value.split("-").reverse().join("-") : target.value;
     const name = target.name;
 
     this.setState({
@@ -28,14 +30,15 @@ class ContractDetails extends Component {
   }
 
   getFormInputs() {
-    var dateReg = /^\d{2}[./-]\d{2}[./-]\d{4}$/;
+    var dateReg1 = /^\d{2}[./-]\d{2}[./-]\d{4}$/;
+    var dateReg2 = /^\d{4}[./-]\d{2}[./-]\d{2}$/;
     var forms = this.props.keys.map((k, index) => (
       <div className="form-group" key={index}>
         <label>{k}</label>
         <input
-          type={this.state[k].match(dateReg) ? "date" : "text"}
+          type={(this.state[k].match(dateReg1) || this.state[k].match(dateReg2)) ? "date" : "text"}
           className="form-control"
-          value={this.state[k].match(dateReg) ? this.state[k].split("-").reverse().join("-") : this.state[k]}
+          value={this.state[k].match(dateReg1) ? this.state[k].split("-").reverse().join("-") : this.state[k]}
           onChange={this.handleChange}
           name={k} />
       </div>

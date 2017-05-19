@@ -66,7 +66,7 @@ class App extends Component {
     const keys = this.keys;
     const data = this.props.contracts.filter(contract => {
       for (var i in keys) {
-        if (contract[keys[i]].includes(this.state.search)) {
+        if (contract[keys[i]].toLowerCase().includes(this.state.search)) {
           return true;
         }
       }
