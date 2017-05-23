@@ -72,9 +72,10 @@ class App extends Component {
   filterData() {
     // Realiza a busca a partir da string de query informada, buscando em todas as colunas.
     const keys = this.keys;
+    const query = this.state.search.toLowerCase();
     const data = this.props.contracts.filter(contract => {
       for (var i in keys) {
-        if (contract[keys[i]].toLowerCase().includes(this.state.search)) {
+        if (contract[keys[i]].toLowerCase().includes(query)) {
           return true;
         }
       }

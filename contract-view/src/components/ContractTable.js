@@ -30,6 +30,7 @@ class ContractTable extends Component {
 
     return (
       <div className="row">
+        <h5 className="text-info">Clique em uma linha para editar o contrato correspondente.</h5>
         <div className="table-responsive">
           <table className="table table-bordered table-hover">
             <thead>
