@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import '../assets/bootstrap/css/bootstrap.min.css';
 
 class SortForm extends Component {
+  // Componente responsável por renderizar as opções de ordenação dos dados.
+
   constructor(props) {
     super(props);
 
+    // Corrige o escopo das funções que tratarão eventos
     this.handleChange = this.handleChange.bind(this);
 
     this.state = {

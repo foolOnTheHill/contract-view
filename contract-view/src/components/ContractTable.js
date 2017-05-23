@@ -3,13 +3,16 @@ import '../assets/bootstrap/css/bootstrap.min.css';
 import ContractRow from './ContractRow.js';
 
 class ContractTable extends Component {
+  // Componente responsável por renderizar a tabela dos dados.
+
   getTableHeader() {
+    // Gera o cabeçalho da tabela, listando todas as colunas que serão exibidas.
     const cols = this.props.tableHeaderKeys.map((k, index) => <th key={index}>{k}</th>);
     return cols;
   }
 
   getTableData() {
-    var contracts = JSON.parse(JSON.stringify(this.props.contracts));
+    var contracts = JSON.parse(JSON.stringify(this.props.contracts)); // Cria uma cópia local dos contratos
 
     for (var i in contracts) {
       for (var j in this.props.hideKeys) {
